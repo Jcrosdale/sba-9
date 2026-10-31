@@ -30,3 +30,9 @@ export interface TaskFilterProps {
         priority?: 'low' | 'medium' | 'high';
     }) => void;
 }
+
+// Filter
+export interface Filters {
+    status?: TaskStatus;
+    priority?: Task['priority'];
+}
