@@ -1,6 +1,7 @@
 // TaskList component that manages and displays a list of tasks
 export type TaskStatus = 'pending' | 'in-progress' | 'completed';
 export type TaskPriority = 'low' | 'medium' | 'high';
+export type TaskErrors = Partial<Record<keyof TaskFormData, string>>;
 
 export interface Task {
     id: string;
@@ -47,3 +48,7 @@ export interface TaskFormData {
     dueDate: string;
 }
 
+export interface TaskFormProps {
+    onAddTask: (data: TaskFormData) => void;
+    
+}

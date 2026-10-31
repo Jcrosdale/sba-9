@@ -9,7 +9,7 @@
 // Manages and displays a list of tasks
 
 // imports
-import TaskItem from '../TaskItem/TaskItem';
+import TaskItem from './TaskItem';
 import type { TaskListProps } from '../../types';
 
 
