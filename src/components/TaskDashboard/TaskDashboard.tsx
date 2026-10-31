@@ -12,6 +12,26 @@ const initialTasks: Task[] = [
     { id: '3', title: 'Task 3', description: 'Description 3', status: 'completed', priority: 'high', dueDate: '2024-01-02' }
 ];
 
+const STORAGE_KEY = 'task-dashboard-tasks';
+
+// Save tasks
+export function loadTasks(fallback: Task[]): Task[] {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? (JSON.parse(saved) as Task[]) : fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+export function saveTasks(tasks: Task[]): void {
+    try {
+        localStorage.setItems(STORAGE_KEY, JSON.stringify(tasks));
+    } catch {
+        console.error('Tasks could not save');
+    }
+}
+
 export default function TaskDashboard() {
 
     // useState
