@@ -29,7 +29,6 @@ export default function TaskForm({ onAddTask }: TaskFormProps) {
 
         // Remove error when editing
         setErrors(prev => ({ ...prev, [name]: undefined }));
-    }
 }
 
 // When a task is added
@@ -37,7 +36,7 @@ function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
 
     // check and store errors
-    const validationErrors = validTask(TaskForm);
+    const validationErrors = validTask(formData);
     setErrors(validationErrors);
 
     // No keys = no errors
@@ -46,8 +45,46 @@ function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
         onAddTask(formData);
 
         // Clear form
-        FormData(emptyForm);
+        setFormData(emptyForm);
     }
 }
 
-// change handlers
+return (
+    <form className='task-form' onSubmit={handleSubmit}>
+        <h2> Add Task </h2>
+
+        <label>
+            Title
+            <input name='title' value={formData.title} onChange={handleChange}
+            />
+        </label>
+        {errors.title && <p className="error">{errors.title}</p>}
+
+        <label>
+            Description
+            <textarea name="description" value={formData.description} onChange={handleChange} 
+            />
+        </label>
+        {errors.description && <p className='error'>{errors.description}</p>}
+
+        <label>
+            Priority
+            <select name='priority' value={formData.priority} onChange={handlerChange}>
+                <option value='low'>Low</option>
+                <option value='medium'>Medium</option>
+                <option value='high'>High</option>
+            </select>
+        </label>
+
+        <label>
+            Due Date
+            <input type='date' name='dueDate' value={formData.dueDate} onChange={handleChange} />
+        </label>
+        {errors.dueDate && <p className='error'>{errors.dueDate}</p>}
+
+        <button type='submit'>Add Task</button>
+    </form>
+            
+    );
+
+};
