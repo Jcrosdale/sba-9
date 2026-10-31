@@ -24,10 +24,15 @@ export default function TaskDashboard() {
         setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: newStatus } : task))
     };
 
-    // CLosure to TaskFilter
-    function onFilterChange(newFilters: { status?: TaskStatus; priority?: Task['priority']; }) {
+    // CLosure to T(askFilter
+    function onFilterChange( newFilters: Filters ) {
         setFilters(newFilters);
     };
+
+    // Delete
+    function onDelete(taskId: string) {
+        setTasks(prev => prev.filter(task => task.id !== taskId))
+    }
 
     // Tasks matching the active filters
     const visibleTasks = tasks.filter(task =>
@@ -38,7 +43,7 @@ export default function TaskDashboard() {
     return (
         <div className="dashboard">
             <h1>Task Dashboard</h1>
-            <TaskFilter onFIlterChange={onFilterChange} />
+            <TaskFilter onFilterChange={onFilterChange} />
             <TaskList
                 tasks={visibleTasks}
                 onStatusChange={onStatusChange}
