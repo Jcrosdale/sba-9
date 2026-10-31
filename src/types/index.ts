@@ -34,5 +34,15 @@ export interface TaskFilterProps {
 // Filter
 export interface Filters {
     status?: TaskStatus;
-    priority?: Task['priority'];
+    priority?: TaskPriority;
+    searchTerm?: string;
 }
+
+// Task Data
+export interface TaskFormData {
+    title: string;
+    description: string;
+    priority: TaskPriority;
+    dueDate: string;
+}
+

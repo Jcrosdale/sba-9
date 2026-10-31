@@ -1,7 +1,7 @@
 // Dashboard
 
 import { useState } from 'react';
-import TaskFilter from '../TaskFilter/TaskFIlter';
+import TaskFilter from '../TaskFilter/TaskFilter';
 import TaskList from '../TaskList/TaskList';
 import type { Task, TaskStatus, Filters } from '../../types';
 
