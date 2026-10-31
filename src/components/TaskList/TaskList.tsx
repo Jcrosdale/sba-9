@@ -21,16 +21,6 @@ export default function TaskList({ tasks, onStatusChange, onDelete }: TaskListPr
     // useState
     const [filters, setFilters] = useState<{ status?: TaskStatus; priority?: Task['priority'] }>({});
 
-    // CLosure to TaskFilter
-    function onFilterChange(newFilters: { status?: TaskStatus; priority?: Task['priority']; }) {
-        setFilters(newFilters);
-    };
-
-    // Tasks matching the active filters
-    const visibleTasks = tasks.filter(task =>
-        (!filters.status || task.status === filters.status) &&
-        (!filters.priority || task.priority === filters.priority)
-    );
 
     return (
         <div>
