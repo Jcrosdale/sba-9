@@ -69,7 +69,7 @@ return (
 
         <label>
             Priority
-            <select name='priority' value={formData.priority} onChange={handlerChange}>
+            <select name='priority' value={formData.priority} onChange={handleChange}>
                 <option value='low'>Low</option>
                 <option value='medium'>Medium</option>
                 <option value='high'>High</option>
