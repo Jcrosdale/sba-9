@@ -8,6 +8,26 @@
 // Imports
 import type { Task, Filters, TaskFormData, TaskErrors } from '../types';
 
+const STORAGE_KEY = 'task-dashboard-tasks';
+
+// Save tasks
+export function loadTasks(fallback: Task[]): Task[] {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? (JSON.parse(saved) as Task[]) : fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+export function saveTasks(tasks: Task[]): void {
+    try {
+        localStorage.setItems(STORAGE_KEY, JSON.stringify(tasks));
+    } catch {
+        console.error('Tasks could not save');
+    }
+}
+
 // Returning matching tasks
 export function filterTasks(tasks: Task[], filters: Filters): Task[] {
     const term = filters.searchTerm?.trim().toLowerCase();

@@ -1,9 +1,13 @@
 // Dashboard
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TaskFilter from '../TaskFilter/TaskFilter';
 import TaskList from '../TaskList/TaskList';
 import type { Task, TaskStatus, Filters } from '../../types';
+import { loadTasks, saveTasks } from '../../utils/taskUtils';
+
+// Load saved tasks
+//const [tasks, setTasks] = useState<Task[]>(() => loadTasks(initialTasks));
 
 // Initial (Sample) Tasks
 const initialTasks: Task[] = [
@@ -12,31 +16,36 @@ const initialTasks: Task[] = [
     { id: '3', title: 'Task 3', description: 'Description 3', status: 'completed', priority: 'high', dueDate: '2024-01-02' }
 ];
 
-const STORAGE_KEY = 'task-dashboard-tasks';
+// const STORAGE_KEY = 'task-dashboard-tasks';
 
-// Save tasks
-export function loadTasks(fallback: Task[]): Task[] {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? (JSON.parse(saved) as Task[]) : fallback;
-    } catch {
-        return fallback;
-    }
-}
+// // Save tasks
+// export function loadTasks(fallback: Task[]): Task[] {
+//     try {
+//         const saved = localStorage.getItem(STORAGE_KEY);
+//         return saved ? (JSON.parse(saved) as Task[]) : fallback;
+//     } catch {
+//         return fallback;
+//     }
+// }
 
-export function saveTasks(tasks: Task[]): void {
-    try {
-        localStorage.setItems(STORAGE_KEY, JSON.stringify(tasks));
-    } catch {
-        console.error('Tasks could not save');
-    }
-}
+// export function saveTasks(tasks: Task[]): void {
+//     try {
+//         localStorage.setItems(STORAGE_KEY, JSON.stringify(tasks));
+//     } catch {
+//         console.error('Tasks could not save');
+//     }
+// }
 
 export default function TaskDashboard() {
 
     // useState
-    const [tasks, setTasks] = useState<Task[]>(initialTasks);
+    const [tasks, setTasks] = useState<Task[]>(() => loadTasks(initialTasks));
     const [filters, setFilters] = useState<Filters>({});
+
+    // Save after each change
+    useEffect(() => {
+        saveTasks(tasks);
+    }, [tasks]);
 
     // Closure to TaskItem
     function onStatusChange(taskId: string, newStatus: TaskStatus) {
@@ -45,13 +54,18 @@ export default function TaskDashboard() {
     };
 
     // CLosure to T(askFilter
-    function onFilterChange( newFilters: Filters ) {
+    function onFilterChange(newFilters: Filters) {
         setFilters(newFilters);
     };
 
     // Delete
     function onDelete(taskId: string) {
         setTasks(prev => prev.filter(task => task.id !== taskId))
+    }
+
+    // Export
+    function Export() {
+        
     }
 
     // Tasks matching the active filters
