@@ -3,11 +3,9 @@
 import { useState, useEffect } from 'react';
 import TaskFilter from '../TaskFilter/TaskFilter';
 import TaskList from '../TaskList/TaskList';
-import type { Task, TaskStatus, Filters } from '../../types';
+import TaskForm from '../TaskForm/TaskForm';
+import type { Task, TaskStatus, Filters, TaskFormData } from '../../types';
 import { loadTasks, saveTasks } from '../../utils/taskUtils';
-
-// Load saved tasks
-//const [tasks, setTasks] = useState<Task[]>(() => loadTasks(initialTasks));
 
 // Initial (Sample) Tasks
 const initialTasks: Task[] = [
@@ -15,26 +13,6 @@ const initialTasks: Task[] = [
     { id: '2', title: 'Task 2', description: 'Description 2', status: 'in-progress', priority: 'medium', dueDate: '2024-01-01' },
     { id: '3', title: 'Task 3', description: 'Description 3', status: 'completed', priority: 'high', dueDate: '2024-01-02' }
 ];
-
-// const STORAGE_KEY = 'task-dashboard-tasks';
-
-// // Save tasks
-// export function loadTasks(fallback: Task[]): Task[] {
-//     try {
-//         const saved = localStorage.getItem(STORAGE_KEY);
-//         return saved ? (JSON.parse(saved) as Task[]) : fallback;
-//     } catch {
-//         return fallback;
-//     }
-// }
-
-// export function saveTasks(tasks: Task[]): void {
-//     try {
-//         localStorage.setItems(STORAGE_KEY, JSON.stringify(tasks));
-//     } catch {
-//         console.error('Tasks could not save');
-//     }
-// }
 
 export default function TaskDashboard() {
 
@@ -53,7 +31,17 @@ export default function TaskDashboard() {
         setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: newStatus } : task))
     };
 
-    // CLosure to T(askFilter
+    // Add a new task
+    function onAddTask(formData: TaskFormData) {
+        const newTask: Task = {
+            ...formData,
+            id: Date.now().toString(),
+            status: 'pending'
+        };
+        
+        setTasks(prev => [...prev, newTask])
+    }
+    // CLosure to TaskFilter
     function onFilterChange(newFilters: Filters) {
         setFilters(newFilters);
     };
@@ -63,21 +51,25 @@ export default function TaskDashboard() {
         setTasks(prev => prev.filter(task => task.id !== taskId))
     }
 
-    // Export
-    function Export() {
-        
-    }
-
     // Tasks matching the active filters
     const visibleTasks = tasks.filter(task =>
         (!filters.status || task.status === filters.status) &&
-        (!filters.priority || task.priority === filters.priority)
+        (!filters.priority || task.priority === filters.priority) &&
+        (
+            !filters.searchTerm || 
+            task.title.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+            task.description.toLowerCase().includes(filters.searchTerm.toLowerCase())
+        )
     );
 
     return (
         <div className="dashboard">
             <h1>Task Dashboard</h1>
+
+            <TaskForm onAddTask={onAddTask} />
+
             <TaskFilter onFilterChange={onFilterChange} />
+            
             <TaskList
                 tasks={visibleTasks}
                 onStatusChange={onStatusChange}

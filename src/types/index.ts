@@ -37,7 +37,7 @@ export interface TaskFilterProps {
 // Filter
 export interface Filters {
     status?: TaskStatus;
-    priority?: TaskPriority;
+    priority?: Task['priority'];
     searchTerm?: string;
 }
 
@@ -50,6 +50,6 @@ export interface TaskFormData {
 }
 
 export interface TaskFormProps {
-    onAddTask: (data: TaskFormData) => void;
+    onAddTask: (formData: TaskFormData) => void;
     
 }
