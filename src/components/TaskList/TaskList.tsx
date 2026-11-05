@@ -1,9 +1,7 @@
 // Implement list rendering with proper key management
 // Handle task status updates
 // Implement task addition
-// Implement task deletion
-// Add sorting functionality
-// Add a search bar to search for tasks
+
 
 // Parent component
 // Manages and displays a list of tasks
@@ -25,7 +23,7 @@ export default function TaskList({ tasks, onStatusChange, onDelete }: TaskListPr
         task.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Sort tasks
+    // Add sorting functionality
     const sortedTasks = [...filteredTasks].sort((a, b) => {
         if (sortBy === 'title') {
             return a.title.localeCompare(b.title);
@@ -40,6 +38,7 @@ export default function TaskList({ tasks, onStatusChange, onDelete }: TaskListPr
 
     return (
         <>
+            {/* Add a search bar to search for tasks */}
             <input
                 type='text'
                 placeholder='Search for tasks...'
@@ -55,6 +54,7 @@ export default function TaskList({ tasks, onStatusChange, onDelete }: TaskListPr
                 <option value='status'>Status</option>
             </select>
 
+            {/* Implement task deletion */}
             <ul className='task-list'>
                 {sortedTasks.map(task => (
                     <TaskItem

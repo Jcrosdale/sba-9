@@ -43,13 +43,9 @@ export default function TaskItem( {
                 Delete
             </button>
 
-            <p>
-                <h2>Priority:</h2> {task.priority}
-            </p>
-
-            <p>
-                <h2>Due:</h2> {task.dueDate}
-            </p>
+            <h2>Priority:</h2> {task.priority}
+            <h2>Due:</h2> {task.dueDate}
+                
         </div>
 
     );
